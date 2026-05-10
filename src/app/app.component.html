@@ -35,6 +35,11 @@
         If this UI loads in Azure, you know the Node runtime started, the Angular
         build was served correctly, and client-side navigation fallback is available.
       </p>
+      <div class="callout-strip">
+        <span class="callout-label">New in this revision</span>
+        <strong>Git push test ready</strong>
+        <p>You now have a visible dashboard update to commit, push, and verify after deployment.</p>
+      </div>
     </article>
 
     <article class="info-card">
@@ -48,6 +53,25 @@
           </div>
         </li>
       </ul>
+    </article>
+  </section>
+
+  <section class="activity-section">
+    <article class="activity-card">
+      <div class="activity-header">
+        <p class="panel-label">Recent activity</p>
+        <h2>Change log preview</h2>
+      </div>
+
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let item of activityFeed" [class]="item.tone">
+          <span class="activity-dot"></span>
+          <div>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.detail }}</p>
+          </div>
+        </div>
+      </div>
     </article>
   </section>
 </main>

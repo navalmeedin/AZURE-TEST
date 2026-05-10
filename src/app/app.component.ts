@@ -15,6 +15,12 @@ interface ChecklistItem {
   done: boolean;
 }
 
+interface ActivityItem {
+  title: string;
+  detail: string;
+  tone: 'success' | 'info' | 'warning';
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -62,6 +68,24 @@ export class AppComponent {
       title: 'Verify health',
       description: 'Open the site URL and confirm this dashboard loads.',
       done: false
+    }
+  ];
+
+  readonly activityFeed: ActivityItem[] = [
+    {
+      title: 'Git change prepared',
+      detail: 'This refreshed layout gives you a clear visual diff for commit and push testing.',
+      tone: 'success'
+    },
+    {
+      title: 'Azure validation ready',
+      detail: 'Once pushed, you can redeploy and confirm the new UI version appears in App Service.',
+      tone: 'info'
+    },
+    {
+      title: 'Next test idea',
+      detail: 'Try committing this update with a message like `Update Azure smoke test UI`.',
+      tone: 'warning'
     }
   ];
 
