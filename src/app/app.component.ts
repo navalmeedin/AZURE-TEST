@@ -34,6 +34,7 @@ export class AppComponent {
   readonly region = 'Canada Central';
   readonly health: HealthStatus = 'Healthy';
   readonly deployedAt = new Date().toLocaleString();
+  readonly releaseLabel = 'Revision B';
 
   readonly statusCards: StatusCard[] = [
     {
@@ -73,18 +74,18 @@ export class AppComponent {
 
   readonly activityFeed: ActivityItem[] = [
     {
-      title: 'Git change prepared',
-      detail: 'This refreshed layout gives you a clear visual diff for commit and push testing.',
+      title: 'Second UI update prepared',
+      detail: 'This revision adds a release banner and action panel so the Azure version change is easy to notice.',
       tone: 'success'
     },
     {
       title: 'Azure validation ready',
-      detail: 'Once pushed, you can redeploy and confirm the new UI version appears in App Service.',
+      detail: 'Once pushed, you can verify whether your deployment flow reflects the new revision automatically.',
       tone: 'info'
     },
     {
       title: 'Next test idea',
-      detail: 'Try committing this update with a message like `Update Azure smoke test UI`.',
+      detail: 'Try committing this update with a message like `Add revision B Azure UI`.',
       tone: 'warning'
     }
   ];

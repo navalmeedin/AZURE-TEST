@@ -1,4 +1,14 @@
 <main class="page-shell">
+  <section class="release-banner">
+    <div>
+      <p class="panel-label">Live deployment marker</p>
+      <h2>{{ releaseLabel }}</h2>
+    </div>
+    <p>
+      If Azure reflects this banner after your commit, your deployment update path is working.
+    </p>
+  </section>
+
   <section class="hero">
     <div class="hero-copy">
       <p class="eyebrow">Azure deployment smoke test</p>
@@ -72,6 +82,20 @@
           </div>
         </div>
       </div>
+    </article>
+  </section>
+
+  <section class="activity-section">
+    <article class="action-card">
+      <div>
+        <p class="panel-label">Deployment checkpoint</p>
+        <h2>Ready for another Azure sync test</h2>
+        <p>
+          Commit and push this revision, then compare the deployed site against the
+          `Revision B` banner and this action panel.
+        </p>
+      </div>
+      <button type="button">Awaiting next deployment</button>
     </article>
   </section>
 </main>

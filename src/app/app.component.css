@@ -13,6 +13,32 @@
     linear-gradient(135deg, #0f172a 0%, #132238 48%, #1f2937 100%);
 }
 
+.release-banner {
+  max-width: 1200px;
+  margin: 0 auto 24px;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  border-radius: 22px;
+  background: linear-gradient(90deg, rgba(14, 165, 233, 0.2), rgba(249, 115, 22, 0.18));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.release-banner h2,
+.action-card h2 {
+  margin: 0;
+}
+
+.release-banner p:last-child {
+  max-width: 32rem;
+  margin: 0;
+  color: #dbe4f2;
+  line-height: 1.6;
+}
+
 .hero {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
@@ -187,6 +213,32 @@ h1 {
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
 }
 
+.action-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  padding: 24px 26px;
+  border-radius: 24px;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+.action-card p {
+  margin-bottom: 0;
+}
+
+.action-card button {
+  border: 0;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: #f97316;
+  color: #fff7ed;
+  font: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 .activity-header {
   margin-bottom: 18px;
 }
@@ -287,9 +339,17 @@ h1 {
 }
 
 @media (max-width: 900px) {
+  .release-banner,
+  .action-card,
   .hero,
   .content-grid {
     grid-template-columns: 1fr;
+  }
+
+  .release-banner,
+  .action-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .hero-copy,
