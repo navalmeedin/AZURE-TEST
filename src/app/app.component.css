@@ -165,6 +165,14 @@ h1 {
   margin: 24px auto 0;
 }
 
+.api-card {
+  padding: 28px;
+  border-radius: 24px;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+}
+
 .info-card {
   padding: 28px;
 }
@@ -213,6 +221,118 @@ h1 {
   box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
 }
 
+.api-card-header,
+.response-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.api-card-header h2 {
+  margin: 0;
+}
+
+.api-mode {
+  min-width: 72px;
+  justify-content: center;
+}
+
+.api-intro,
+.hint-text {
+  color: #dbe4f2;
+}
+
+.field-label {
+  display: block;
+  margin: 18px 0 10px;
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.api-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+}
+
+.api-form input {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.55);
+  color: #f8fafc;
+  font: inherit;
+}
+
+.api-form input::placeholder {
+  color: #94a3b8;
+}
+
+.api-form button,
+.action-card button {
+  border: 0;
+  padding: 14px 18px;
+  border-radius: 999px;
+  color: #fff7ed;
+  font: inherit;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.api-form button {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+}
+
+.api-form button:disabled {
+  opacity: 0.7;
+}
+
+.hint-text code {
+  color: #f9b86a;
+}
+
+.api-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+
+.api-error {
+  margin: 18px 0 0;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(239, 68, 68, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.22);
+  color: #fecaca;
+}
+
+.response-card {
+  margin-top: 22px;
+  padding: 20px 22px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.response-header span {
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.response-card pre {
+  margin: 16px 0 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #dbe4f2;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  line-height: 1.6;
+}
+
 .action-card {
   display: flex;
   justify-content: space-between;
@@ -229,14 +349,7 @@ h1 {
 }
 
 .action-card button {
-  border: 0;
-  padding: 14px 18px;
-  border-radius: 999px;
   background: #f97316;
-  color: #fff7ed;
-  font: inherit;
-  font-weight: 700;
-  white-space: nowrap;
 }
 
 .activity-header {
@@ -343,6 +456,11 @@ h1 {
   .action-card,
   .hero,
   .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .api-form,
+  .api-status-grid {
     grid-template-columns: 1fr;
   }
 

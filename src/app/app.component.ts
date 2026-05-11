@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 type HealthStatus = 'Healthy' | 'Deploying' | 'Pending';
 
@@ -21,10 +22,16 @@ interface ActivityItem {
   tone: 'success' | 'info' | 'warning';
 }
 
+interface ApiSummary {
+  status: string;
+  contentType: string;
+  lastChecked: string;
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -34,7 +41,8 @@ export class AppComponent {
   readonly region = 'Canada Central';
   readonly health: HealthStatus = 'Healthy';
   readonly deployedAt = new Date().toLocaleString();
-  readonly releaseLabel = 'Revision B';
+  readonly releaseLabel = 'Revision C';
+  readonly sampleEndpoint = 'https://your-container-app.region.azurecontainerapps.io/api/health';
 
   readonly statusCards: StatusCard[] = [
     {
@@ -75,20 +83,93 @@ export class AppComponent {
   readonly activityFeed: ActivityItem[] = [
     {
       title: 'Second UI update prepared',
-      detail: 'This revision adds a release banner and action panel so the Azure version change is easy to notice.',
+      detail: 'This revision adds a live API test panel so you can call your Azure Container App from the UI.',
       tone: 'success'
     },
     {
       title: 'Azure validation ready',
-      detail: 'Once pushed, you can verify whether your deployment flow reflects the new revision automatically.',
+      detail: 'Once pushed, you can verify whether your Web App can read data from your Container App endpoint.',
       tone: 'info'
     },
     {
       title: 'Next test idea',
-      detail: 'Try committing this update with a message like `Add revision B Azure UI`.',
+      detail: 'Try committing this update with a message like `Add container app API test panel`.',
       tone: 'warning'
     }
   ];
+
+  apiUrl = '';
+  apiMethod = 'GET';
+  apiLoading = false;
+  apiError = '';
+  apiResponse = 'No response loaded yet.';
+  apiSummary: ApiSummary | null = null;
+
+  async fetchContainerAppData(): Promise<void> {
+    if (!this.apiUrl.trim()) {
+      this.apiError = 'Enter your Azure Container App API URL before sending the request.';
+      this.apiSummary = null;
+      return;
+    }
+
+    this.apiLoading = true;
+    this.apiError = '';
+    this.apiResponse = 'Loading response...';
+
+    try {
+      const response = await fetch(this.apiUrl.trim(), {
+        method: this.apiMethod,
+        headers: {
+          Accept: 'application/json, text/plain;q=0.9, */*;q=0.8'
+        }
+      });
+
+      const contentType = response.headers.get('content-type') ?? 'unknown';
+      const rawBody = await response.text();
+
+      this.apiSummary = {
+        status: `${response.status} ${response.statusText}`,
+        contentType,
+        lastChecked: new Date().toLocaleString()
+      };
+
+      this.apiResponse = this.formatApiBody(rawBody, contentType);
+
+      if (!response.ok) {
+        this.apiError = 'The API responded, but with a non-success status code.';
+      }
+    } catch (error) {
+      this.apiSummary = null;
+      this.apiResponse = 'No response loaded yet.';
+      this.apiError = this.describeApiError(error);
+    } finally {
+      this.apiLoading = false;
+    }
+  }
+
+  private formatApiBody(rawBody: string, contentType: string): string {
+    if (!rawBody.trim()) {
+      return 'Response body was empty.';
+    }
+
+    if (contentType.includes('application/json')) {
+      try {
+        return JSON.stringify(JSON.parse(rawBody), null, 2);
+      } catch {
+        return rawBody;
+      }
+    }
+
+    return rawBody;
+  }
+
+  private describeApiError(error: unknown): string {
+    if (error instanceof Error) {
+      return `${error.message}. If this is your Azure Container App, check CORS, public ingress, and the route path.`;
+    }
+
+    return 'Request failed. Check CORS, public ingress, and whether the API URL is reachable from the browser.';
+  }
 
   get healthTone(): string {
     switch (this.health) {
