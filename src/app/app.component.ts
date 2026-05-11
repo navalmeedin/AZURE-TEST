@@ -41,7 +41,7 @@ export class AppComponent {
   readonly region = 'Canada Central';
   readonly health: HealthStatus = 'Healthy';
   readonly deployedAt = new Date().toLocaleString();
-  readonly releaseLabel = 'Revision C';
+  readonly releaseLabel = 'Revision D';
   readonly sampleEndpoint = 'https://your-container-app.region.azurecontainerapps.io/api/health';
 
   readonly statusCards: StatusCard[] = [
@@ -82,18 +82,18 @@ export class AppComponent {
 
   readonly activityFeed: ActivityItem[] = [
     {
-      title: 'Second UI update prepared',
-      detail: 'This revision adds a live API test panel so you can call your Azure Container App from the UI.',
+      title: 'Proxy flow prepared',
+      detail: 'This revision routes the request through the Web App server so you can test Container Apps without browser CORS blocking.',
       tone: 'success'
     },
     {
       title: 'Azure validation ready',
-      detail: 'Once pushed, you can verify whether your Web App can read data from your Container App endpoint.',
+      detail: 'Once pushed, you can verify whether your Web App backend can read data from your Container App endpoint.',
       tone: 'info'
     },
     {
       title: 'Next test idea',
-      detail: 'Try committing this update with a message like `Add container app API test panel`.',
+      detail: 'Try committing this update with a message like `Add Container App proxy test flow`.',
       tone: 'warning'
     }
   ];
@@ -117,11 +117,9 @@ export class AppComponent {
     this.apiResponse = 'Loading response...';
 
     try {
-      const response = await fetch(this.apiUrl.trim(), {
-        method: this.apiMethod,
-        headers: {
-          Accept: 'application/json, text/plain;q=0.9, */*;q=0.8'
-        }
+      const encodedUrl = encodeURIComponent(this.apiUrl.trim());
+      const response = await fetch(`/api/container-proxy?url=${encodedUrl}`, {
+        method: this.apiMethod
       });
 
       const contentType = response.headers.get('content-type') ?? 'unknown';
@@ -165,10 +163,10 @@ export class AppComponent {
 
   private describeApiError(error: unknown): string {
     if (error instanceof Error) {
-      return `${error.message}. If this is your Azure Container App, check CORS, public ingress, and the route path.`;
+      return `${error.message}. Check whether the Web App server can reach the Container App URL and whether the route path is correct.`;
     }
 
-    return 'Request failed. Check CORS, public ingress, and whether the API URL is reachable from the browser.';
+    return 'Request failed. Check whether the Web App server can reach the Container App URL and whether the route path is reachable.';
   }
 
   get healthTone(): string {

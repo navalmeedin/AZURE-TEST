@@ -47,8 +47,8 @@
       </p>
       <div class="callout-strip">
         <span class="callout-label">New in this revision</span>
-        <strong>Container App API test ready</strong>
-        <p>You can now plug in a Container App endpoint and see the returned payload directly in this UI.</p>
+        <strong>Container App proxy test ready</strong>
+        <p>The page now calls your Container App through the Web App server, which avoids browser CORS issues.</p>
       </div>
     </article>
 
@@ -77,8 +77,8 @@
       </div>
 
       <p class="api-intro">
-        Paste your Azure Container App URL below. This sends a browser request from the Angular UI,
-        which is useful for testing ingress, routing, and CORS after deployment.
+        Paste your Azure Container App URL below. This sends the request through the Web App server first,
+        which is useful for testing backend-to-backend connectivity without browser CORS blocking.
       </p>
 
       <label class="field-label" for="api-url">Container App API URL</label>
@@ -105,7 +105,7 @@
         <div class="signal-card">
           <p>Status</p>
           <strong>{{ apiSummary.status }}</strong>
-          <span>HTTP result from your Container App</span>
+          <span>HTTP result returned through the Web App proxy</span>
         </div>
         <div class="signal-card">
           <p>Content type</p>
@@ -115,7 +115,7 @@
         <div class="signal-card">
           <p>Last checked</p>
           <strong>{{ apiSummary.lastChecked }}</strong>
-          <span>Browser-side request timestamp</span>
+          <span>Time the Web App proxy request completed</span>
         </div>
       </div>
 
@@ -156,7 +156,7 @@
         <p class="panel-label">Deployment checkpoint</p>
         <h2>Ready for Web App to Container App testing</h2>
         <p>
-          Commit and push this revision, then call your Container App URL from the deployed Web App and inspect the response here.
+          Commit and push this revision, then call your Container App URL from the deployed Web App and inspect the proxied response here.
         </p>
       </div>
       <button type="button">Awaiting API connection</button>
