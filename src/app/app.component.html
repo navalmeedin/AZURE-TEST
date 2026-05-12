@@ -1,18 +1,165 @@
 <main class="page-shell">
-  <section class="app-card">
-    <p class="eyebrow">Simple Azure Container App Demo</p>
-    <h1>{{ title }}</h1>
-    <p class="subtitle">{{ subtitle }}</p>
-
-    <button type="button" (click)="callApp()" [disabled]="loading">
-      {{ loading ? 'Calling...' : 'Call App' }}
-    </button>
-
-    <p class="error" *ngIf="error">{{ error }}</p>
-
-    <div class="response-card">
-      <p class="response-label">Response</p>
-      <pre>{{ response }}</pre>
+  <section class="release-banner">
+    <div>
+      <p class="panel-label">Live deployment marker</p>
+      <h2>{{ releaseLabel }}</h2>
     </div>
+    <p>
+      If Azure reflects this banner after your commit, your deployment update path is working.
+    </p>
+  </section>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Azure deployment smoke test</p>
+      <h1>{{ appName }}</h1>
+      <p class="lede">
+        A lightweight Angular test page for checking that your Azure Web App build,
+        static asset delivery, and routing are all working correctly.
+      </p>
+
+      <div class="meta-row">
+        <span class="pill">{{ deployTarget }}</span>
+        <span class="pill">{{ region }}</span>
+        <span class="pill status-pill" [class]="healthTone">{{ health }}</span>
+      </div>
+    </div>
+
+    <div class="hero-panel">
+      <p class="panel-label">Latest sample deployment</p>
+      <p class="panel-time">{{ deployedAt }}</p>
+      <div class="signal-grid">
+        <div class="signal-card" *ngFor="let card of statusCards">
+          <p>{{ card.label }}</p>
+          <strong>{{ card.value }}</strong>
+          <span>{{ card.hint }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-grid">
+    <article class="info-card">
+      <h2>Why this page helps</h2>
+      <p>
+        If this UI loads in Azure, you know the Node runtime started, the Angular
+        build was served correctly, and client-side navigation fallback is available.
+      </p>
+      <div class="callout-strip">
+        <span class="callout-label">New in this revision</span>
+        <strong>Container App proxy test ready</strong>
+        <p>The page now calls your Container App through the Web App server, which avoids browser CORS issues.</p>
+      </div>
+    </article>
+
+    <article class="info-card">
+      <h2>Deployment checklist</h2>
+      <ul class="checklist">
+        <li *ngFor="let item of checklist" [class.done]="item.done">
+          <span class="check-icon">{{ item.done ? '✓' : '•' }}</span>
+          <div>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.description }}</p>
+          </div>
+        </li>
+      </ul>
+    </article>
+  </section>
+
+  <section class="activity-section">
+    <article class="api-card">
+      <div class="api-card-header">
+        <div>
+          <p class="panel-label">Container App API test</p>
+          <h2>Call your Azure endpoint from this page</h2>
+        </div>
+        <span class="pill api-mode">{{ apiMethod }}</span>
+      </div>
+
+      <p class="api-intro">
+        Paste your Azure Container App URL below. This sends the request through the Web App server first,
+        which is useful for testing backend-to-backend connectivity without browser CORS blocking.
+      </p>
+
+      <label class="field-label" for="api-url">Container App API URL</label>
+      <div class="api-form">
+        <input
+          id="api-url"
+          name="api-url"
+          type="url"
+          [ngModel]="apiUrl"
+          (ngModelChange)="apiUrl = $event"
+          [placeholder]="sampleEndpoint"
+        />
+        <button type="button" (click)="fetchContainerAppData()" [disabled]="apiLoading">
+          {{ apiLoading ? 'Loading...' : 'Fetch API Data' }}
+        </button>
+      </div>
+
+      <p class="hint-text">
+        Example:
+        <code>{{ sampleEndpoint }}</code>
+      </p>
+
+      <div class="api-status-grid" *ngIf="apiSummary">
+        <div class="signal-card">
+          <p>Status</p>
+          <strong>{{ apiSummary.status }}</strong>
+          <span>HTTP result returned through the Web App proxy</span>
+        </div>
+        <div class="signal-card">
+          <p>Content type</p>
+          <strong>{{ apiSummary.contentType }}</strong>
+          <span>Returned by the API response headers</span>
+        </div>
+        <div class="signal-card">
+          <p>Last checked</p>
+          <strong>{{ apiSummary.lastChecked }}</strong>
+          <span>Time the Web App proxy request completed</span>
+        </div>
+      </div>
+
+      <p class="api-error" *ngIf="apiError">{{ apiError }}</p>
+
+      <div class="response-card">
+        <div class="response-header">
+          <p class="panel-label">API response</p>
+          <span>{{ apiLoading ? 'Waiting for response' : 'Latest payload' }}</span>
+        </div>
+        <pre>{{ apiResponse }}</pre>
+      </div>
+    </article>
+  </section>
+
+  <section class="activity-section">
+    <article class="activity-card">
+      <div class="activity-header">
+        <p class="panel-label">Recent activity</p>
+        <h2>Change log preview</h2>
+      </div>
+
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let item of activityFeed" [class]="item.tone">
+          <span class="activity-dot"></span>
+          <div>
+            <strong>{{ item.title }}</strong>
+            <p>{{ item.detail }}</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="activity-section">
+    <article class="action-card">
+      <div>
+        <p class="panel-label">Deployment checkpoint</p>
+        <h2>Ready for Web App to Container App testing</h2>
+        <p>
+          Commit and push this revision, then call your Container App URL from the deployed Web App and inspect the proxied response here.
+        </p>
+      </div>
+      <button type="button">Awaiting API connection</button>
+    </article>
   </section>
 </main>
